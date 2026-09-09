@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FireeVolution — Descubra por que os vídeos viralizam</title>
+<meta name="description" content="A FireeVolution analisa vídeos do YouTube, TikTok e Instagram e explica por que eles viralizam. Assine e aplique isso nos seus." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #120b08;
+    --bg-soft: #1c120b;
+    --bg-softer: #241609;
+    --ember-red: #b3160a;
+    --flame-orange: #ef4b1f;
+    --gold: #ffb066;
+    --ash: #f3e9e2;
+    --muted: #b89478;
+    --border: rgba(255, 176, 102, 0.16);
+    --radius: 14px;
+    --display: 'Anton', sans-serif;
+    --body: 'Hanken Grotesk', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ash);
+    font-family: var(--body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  img, canvas { display: block; max-width: 100%; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+
+  .nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+  }
+
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--ash);
+  }
+
+  .nav-cta {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--ash);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-cta:hover { border-color: var(--gold); background: rgba(255, 176, 102, 0.08); }
+
+  /* ---------- HERO ---------- */
+
+  .hero {
+    position: relative;
+    min-height: min(92vh, 780px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  #embers {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(60% 50% at 50% 100%, rgba(179, 22, 10, 0.35), transparent 70%),
+      linear-gradient(180deg, rgba(18, 11, 8, 0.2) 0%, rgba(18, 11, 8, 0.75) 75%, var(--bg) 100%);
+  }
+
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px 80px;
+  }
+
+  .eyebrow {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 8vw, 84px);
+    line-height: 1.02;
+    letter-spacing: 0.01em;
+    margin: 0 0 22px;
+    max-width: 15ch;
+    background: linear-gradient(180deg, #fff1de 0%, var(--gold) 45%, var(--flame-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-sub {
+    max-width: 46ch;
+    font-size: clamp(16px, 2.4vw, 19px);
+    color: var(--ash);
+    opacity: 0.88;
+    margin: 0 0 34px;
+  }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    font-family: var(--body);
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--flame-orange), var(--ember-red));
+    color: #fff8f0;
+    box-shadow: 0 10px 30px rgba(179, 22, 10, 0.35);
+  }
+
+  .btn-primary:hover { box-shadow: 0 14px 36px rgba(179, 22, 10, 0.5); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ash);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover { border-color: var(--gold); }
+
+  /* ---------- STEPS ---------- */
+
+  .steps {
+    padding: 96px 0 88px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-head {
+    max-width: 52ch;
+    margin: 0 0 56px;
+  }
+
+  .section-head h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 42px);
+    margin: 0 0 12px;
+    color: var(--ash);
+  }
+
+  .section-head p {
+    color: var(--muted);
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .step {
+    position: relative;
+    padding: 30px 24px 26px;
+  }
+
+  .step-num {
+    font-family: var(--display);
+    font-size: 46px;
+    line-height: 1;
+    background: linear-gradient(180deg, var(--gold), var(--flame-orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0 0 14px;
+  }
+
+  .step h3 {
+    font-size: 19px;
+    margin: 0 0 8px;
+    color: var(--ash);
+  }
+
+  .step p {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -14px;
+    top: 30px;
+    bottom: 30px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  /* ---------- PRICING ---------- */
+
+  .pricing {
+    padding: 20px 0 110px;
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .plan {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .plan.featured {
+    background: linear-gradient(180deg, var(--bg-softer), var(--bg-soft));
+    border-color: rgba(255, 176, 102, 0.5);
+    box-shadow: 0 0 0 1px rgba(255, 176, 102, 0.12), 0 20px 50px rgba(239, 75, 31, 0.18);
+    transform: translateY(-8px);
+  }
+
+  .plan-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 0 0 14px;
+  }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 0 0 6px;
+  }
+
+  .plan-price .amount {
+    font-family: var(--display);
+    font-size: 42px;
+    color: var(--ash);
+  }
+
+  .plan-price .period {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .plan-note {
+    color: var(--muted);
+    font-size: 13.5px;
+    margin: 0 0 22px;
+    min-height: 18px;
+  }
+
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    flex: 1;
+  }
+
+  .plan-features li {
+    display: flex;
+    gap: 10px;
+    font-size: 14.5px;
+    color: var(--ash);
+    opacity: 0.92;
+  }
+
+  .plan-features li::before {
+    content: "🔥";
+    flex-shrink: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .plan .btn { width: 100%; }
+
+  .pricing-foot {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin: 40px 0 0;
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 34px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+
+  @media (max-width: 860px) {
+    .steps-grid { grid-template-columns: 1fr; gap: 8px; }
+    .step:not(:last-child)::after { display: none; }
+    .plans { grid-template-columns: 1fr; }
+    .plan.featured { transform: none; order: -1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- AUTH / ACCOUNT ---------- */
+  .nav-actions { display:flex; align-items:center; gap:10px; }
+  .account-btn {
+    display:inline-flex; align-items:center; gap:8px; padding:10px 16px;
+    border-radius:999px; border:1px solid var(--border); background:rgba(255,176,102,.05);
+    color:var(--ash); font:600 14px var(--body); cursor:pointer;
+  }
+  .account-btn:hover { border-color:var(--gold); background:rgba(255,176,102,.1); }
+  .user-pill { display:none; align-items:center; gap:8px; }
+  .user-avatar {
+    width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--flame-orange),var(--ember-red)); color:#fff;
+    font-weight:800; font-size:12px;
+  }
+  .modal-backdrop {
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    padding:20px; background:rgba(8,5,4,.78); backdrop-filter:blur(8px);
+  }
+  .modal-backdrop.open { display:flex; }
+  .auth-card {
+    width:min(440px,100%); max-height:90vh; overflow:auto; padding:30px;
+    background:linear-gradient(180deg,#21140d,#160d09); border:1px solid var(--border);
+    border-radius:20px; box-shadow:0 30px 90px rgba(0,0,0,.55); position:relative;
+  }
+  .auth-card h2 { font-family:var(--display); font-weight:400; font-size:34px; margin:0 0 8px; }
+  .auth-card > p { color:var(--muted); margin:0 0 22px; font-size:14px; }
+  .close-modal {
+    position:absolute; right:16px; top:14px; border:0; background:transparent; color:var(--muted);
+    font-size:28px; cursor:pointer;
+  }
+  .auth-tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:20px; padding:4px; background:#100906; border-radius:12px; }
+  .auth-tab { border:0; border-radius:9px; padding:10px; color:var(--muted); background:transparent; cursor:pointer; font-weight:700; }
+  .auth-tab.active { color:var(--ash); background:rgba(255,176,102,.12); }
+  .field { margin-bottom:13px; }
+  .field label { display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .field input {
+    width:100%; padding:13px 14px; border-radius:11px; border:1px solid var(--border);
+    background:#100906; color:var(--ash); outline:none; font:500 15px var(--body);
+  }
+  .field input:focus { border-color:var(--gold); }
+  .auth-submit { width:100%; margin-top:4px; }
+  .google-btn {
+    width:100%; margin-top:10px; display:flex; justify-content:center; align-items:center; gap:10px;
+    border:1px solid var(--border); background:#fff; color:#222; border-radius:999px; padding:13px;
+    font-weight:800; cursor:pointer;
+  }
+  .google-icon { font-weight:900; font-size:18px; }
+  .auth-divider { display:flex; align-items:center; gap:10px; color:#755b49; font-size:12px; margin:16px 0; }
+  .auth-divider::before,.auth-divider::after { content:""; height:1px; background:var(--border); flex:1; }
+  .auth-message { min-height:20px; margin:10px 0 0; color:var(--gold); font-size:13px; }
+  .auth-note { margin-top:14px !important; font-size:11px !important; color:#806451 !important; }
+  .account-menu {
+    position:fixed; z-index:90; right:24px; top:74px; width:260px; display:none;
+    background:#1b100b; border:1px solid var(--border); border-radius:16px; padding:10px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+  }
+  .account-menu.open { display:block; }
+  .account-info { padding:10px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+  .account-info strong { display:block; font-size:14px; overflow:hidden; text-overflow:ellipsis; }
+  .account-info small { color:var(--muted); }
+  .menu-item { width:100%; text-align:left; border:0; background:transparent; color:var(--ash); padding:11px 10px; border-radius:9px; cursor:pointer; font:600 14px var(--body); }
+  .menu-item:hover { background:rgba(255,176,102,.08); }
+  .menu-item.admin-link { color:var(--gold); }
+  /* ---------- ADMIN ---------- */
+  .admin-section { display:none; padding:90px 0; border-top:1px solid var(--border); }
+  .admin-section.visible { display:block; }
+  .admin-top { display:flex; justify-content:space-between; gap:20px; align-items:end; margin-bottom:28px; }
+  .admin-top h2 { font-family:var(--display); font-size:42px; font-weight:400; margin:0; }
+  .admin-badge { color:var(--gold); font-weight:800; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .admin-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+  .admin-card {
+    background:var(--bg-soft); border:1px solid var(--border); border-radius:14px; padding:20px;
+  }
+  .admin-card .label { color:var(--muted); font-size:13px; }
+  .admin-card .value { font-family:var(--display); font-size:32px; margin-top:6px; }
+  .admin-panel { background:var(--bg-soft); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+  .admin-panel h3 { margin:0 0 16px; font-size:18px; }
+  .admin-row { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid var(--border); }
+  .admin-row:first-of-type { border-top:0; }
+  .admin-row span { color:var(--muted); font-size:14px; }
+  .status { color:#b7ffb2 !important; font-weight:800; }
+  .danger { color:#ff9b7e !important; }
+  @media (max-width:860px) {
+    .admin-grid { grid-template-columns:repeat(2,1fr); }
+    .nav-actions .nav-cta { display:none; }
+  }
+  @media (max-width:520px) {
+    .admin-grid { grid-template-columns:1fr 1fr; }
+    .auth-card { padding:24px 18px; }
+    .nav-actions { gap:6px; }
+    .account-btn { padding:9px 12px; }
+  }
+
+
+  .product-upload-box {
+    margin-top:18px; padding:18px; border:1px dashed var(--gold);
+    border-radius:14px; background:rgba(255,176,102,.04);
+  }
+  .product-upload-box h4 { margin:0 0 6px; font-size:16px; }
+  .product-upload-box p { margin:0 0 14px; color:var(--muted); font-size:12px; }
+  .upload-controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  .hidden-file { display:none; }
+  .file-name {
+    color:var(--ash); font-size:13px; min-height:18px; flex:1; min-width:180px;
+  }
+  .subscription-config {
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;
+  }
+  .subscription-config .field { margin:0; }
+  .subscription-config input, .subscription-config select {
+    width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--border);
+    background:#100906; color:var(--ash); outline:none;
+  }
+  .upload-success { color:#b7ffb2; font-size:13px; margin-top:10px; }
+  @media (max-width:520px) {
+    .subscription-config { grid-template-columns:1fr; }
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top">🔥 FireeVolution</a>
+    <div class="nav-actions">
+      <a class="nav-cta" href="#planos">Ver planos</a>
+      <button class="account-btn" id="accountBtn" type="button">Entrar</button>
+      <div class="user-pill" id="userPill">
+        <span class="user-avatar" id="userAvatar">U</span>
+        <button class="account-btn" id="userMenuBtn" type="button">Minha conta ▾</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="hero-content">
+    <p class="eyebrow">Análise de vídeos com IA</p>
+    <h1>Todo vídeo viral<br>deixa pistas.</h1>
+    <p class="hero-sub">
+      A FireeVolution abre nos seus vídeos favoritos do YouTube, TikTok e Instagram
+      e te mostra exatamente por que eles bombaram — pra você aplicar isso nos seus.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#planos">Ver planos</a>
+      <a class="btn btn-ghost" href="#como-funciona">Como funciona</a>
+    </div>
+  </div>
+</header>
+
+<section class="steps" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Como funciona</h2>
+      <p>Três passos, direto na página do vídeo — sem trocar de aba.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <p class="step-num">1</p>
+        <h3>Detecta</h3>
+        <p>A bolinha 🔥 aparece sozinha quando você abre um vídeo no YouTube, TikTok ou Instagram.</p>
+      </div>
+      <div class="step">
+        <p class="step-num">2</p>
+        <h3>Analisa</h3>
+        <p>Em segundos, a IA avalia hook, retenção, ritmo, edição e potencial de compartilhamento.</p>
+      </div>
+      <div class="step">
+        <p class="step-num">3</p>
+        <h3>Aplica</h3>
+        <p>Você recebe o diagnóstico, sugestões de título e ideia de thumbnail prontos pra usar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="planos">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Escolha seu plano</h2>
+      <p>Sem contrato. Crie sua conta para acompanhar sua experiência. Cancele quando quiser.</p>
+    </div>
+
+    <div class="plans">
+      <article class="plan">
+        <p class="plan-name">Diário</p>
+        <div class="plan-price"><span class="amount">R$9,90</span><span class="period">/dia</span></div>
+        <p class="plan-note">Pra testar sem compromisso</p>
+        <ul class="plan-features">
+          <li>Análises ilimitadas por 24 horas</li>
+          <li>Funciona em YouTube, TikTok e Instagram</li>
+          <li>Diagnóstico completo de cada vídeo</li>
+          <li>Chat contínuo sobre a análise</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://buy.stripe.com/14A28q0DN36LgvRbE1aZi01" target="_blank" rel="noopener">Assinar plano diário</a>
+      </article>
+
+      <article class="plan featured">
+        <p class="plan-name">Mensal</p>
+        <div class="plan-price"><span class="amount">R$29,90</span><span class="period">/mês</span></div>
+        <p class="plan-note">O mais usado pelos criadores</p>
+        <ul class="plan-features">
+          <li>Tudo do plano diário</li>
+          <li>Renovação automática mensal</li>
+          <li>Histórico das suas análises</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <a class="btn btn-primary" href="https://buy.stripe.com/9B628q3PZ36L4N9bE1aZi00" target="_blank" rel="noopener">Assinar plano mensal</a>
+      </article>
+
+      <article class="plan">
+        <p class="plan-name">Anual</p>
+        <div class="plan-price"><span class="amount">R$249,90</span><span class="period">/ano</span></div>
+        <p class="plan-note">Equivale a R$20,83/mês — economize 30%</p>
+        <ul class="plan-features">
+          <li>Tudo do plano mensal</li>
+          <li>Preço travado pelo ano inteiro</li>
+          <li>2 meses de graça no cálculo</li>
+          <li>Acesso antecipado a novidades</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://buy.stripe.com/8x2cN4aen0YD4N9eQdaZi02" target="_blank" rel="noopener">Assinar plano anual</a>
+      </article>
+    </div>
+
+    <p class="pricing-foot">Pagamento processado com segurança. Cancele quando quiser, direto na sua conta.</p>
+  </div>
+</section>
+
+
+<section class="admin-section" id="admin">
+  <div class="wrap">
+    <div class="admin-top">
+      <div>
+        <div class="admin-badge">Área protegida</div>
+        <h2>Painel de Admin</h2>
+        <p class="section-head" style="margin:8px 0 0; color:var(--muted);">Visão geral da FireeVolution e controles administrativos.</p>
+      </div>
+      <button class="btn btn-ghost" id="adminLogoutBtn" type="button">Sair</button>
+    </div>
+
+    <div class="admin-grid">
+      <div class="admin-card"><div class="label">Usuários</div><div class="value" id="adminUsers">0</div></div>
+      <div class="admin-card"><div class="label">Sessão atual</div><div class="value" id="adminSession">—</div></div>
+      <div class="admin-card"><div class="label">Extensão</div><div class="value">OK</div></div>
+      <div class="admin-card"><div class="label">Backend</div><div class="value">API</div></div>
+    </div>
+
+    <div class="admin-panel">
+      <h3>Conta autorizada para a extensão Chrome</h3>
+      <div class="admin-row"><span>E-mail Google</span><strong>enricorebelo606@gmail.com</strong></div>
+      <div class="admin-row"><span>Permissão</span><strong class="status">ADMIN / EXTENSÃO</strong></div>
+      <div class="admin-row"><span>Regra</span><span>Somente esta conta pode autorizar a extensão.</span></div>
+    </div>
+
+    <div class="admin-panel">
+      <h3>Controles</h3>
+      <div class="admin-row"><span>Gerenciar usuários</span><button class="btn btn-ghost" type="button" onclick="showAdminMessage('Gerenciamento de usuários: conecte seu banco de dados para ativar esta função.')">Abrir</button></div>
+      <div class="admin-row"><span>Planos e pagamentos</span><button class="btn btn-ghost" type="button" onclick="showAdminMessage('Planos: os links Stripe atuais continuam configurados no site.')">Abrir</button></div>
+      <div class="admin-row"><span>Extensão Chrome</span><button class="btn btn-ghost" type="button" onclick="showAdminMessage('A extensão deve validar o e-mail autorizado no servidor, nunca apenas no JavaScript.')">Configuração</button></div>
+      <div class="admin-row"><span>Logs e segurança</span><button class="btn btn-ghost" type="button" onclick="showAdminMessage('Logs e segurança precisam ser armazenados no backend para não serem falsificáveis pelo usuário.')">Ver</button></div>
+
+      <div class="product-upload-box">
+        <h4>📦 Produto ZIP para assinatura</h4>
+        <p>Escolha o arquivo ZIP que será associado ao produto vendido por assinatura.</p>
+        <div class="upload-controls">
+          <label class="btn btn-ghost" for="zipProductInput">Escolher ZIP</label>
+          <input class="hidden-file" id="zipProductInput" type="file" accept=".zip,application/zip">
+          <span class="file-name" id="zipFileName">Nenhum arquivo selecionado</span>
+        </div>
+
+        <div class="subscription-config">
+          <div class="field">
+            <label for="productNameInput">Nome do produto</label>
+            <input id="productNameInput" type="text" placeholder="Ex.: FireeVolution Pro">
+          </div>
+          <div class="field">
+            <label for="subscriptionPriceInput">Preço da assinatura</label>
+            <input id="subscriptionPriceInput" type="number" min="0" step="0.01" placeholder="9.90">
+          </div>
+          <div class="field">
+            <label for="subscriptionPeriodInput">Período</label>
+            <select id="subscriptionPeriodInput">
+              <option value="day">Diária</option>
+              <option value="month">Mensal</option>
+              <option value="year">Anual</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <button class="btn btn-primary" id="saveZipProductBtn" type="button">Salvar produto de assinatura</button>
+        </div>
+        <div class="upload-success" id="zipProductStatus"></div>
+      </div>
+
+      <p id="adminMessage" class="auth-message"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>🔥 FireeVolution</span>
+    <span>Feita pra criadores que querem entender o que funciona.</span>
+  </div>
+</footer>
+
+
+
+<!-- AUTH MODALS -->
+<div class="modal-backdrop" id="authModal" aria-hidden="true">
+  <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="close-modal" id="closeAuth" type="button" aria-label="Fechar">×</button>
+    <h2 id="authTitle">Entrar na FireeVolution</h2>
+    <p id="authSubtitle">Acesse sua conta para acompanhar suas análises.</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="loginTab" type="button">Entrar</button>
+      <button class="auth-tab" id="signupTab" type="button">Criar conta</button>
+    </div>
+
+    <form id="authForm">
+      <div class="field" id="nameField" style="display:none;">
+        <label for="nameInput">Nome</label>
+        <input id="nameInput" autocomplete="name" placeholder="Seu nome">
+      </div>
+      <div class="field">
+        <label for="emailInput">E-mail</label>
+        <input id="emailInput" type="email" autocomplete="email" placeholder="voce@email.com" required>
+      </div>
+      <div class="field">
+        <label for="passwordInput">Senha</label>
+        <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Mínimo de 6 caracteres" minlength="6" required>
+      </div>
+      <button class="btn btn-primary auth-submit" type="submit" id="authSubmit">Entrar</button>
+    </form>
+
+    <div class="auth-divider">ou</div>
+    <button class="google-btn" id="googleBtn" type="button">
+      <span class="google-icon">G</span> Continuar com Google
+    </button>
+    <p class="auth-message" id="authMessage"></p>
+    <p class="auth-note">Importante: esta versão deixa a interface e o fluxo funcionando no site estático. Para autenticação real e segura, conecte o formulário a um backend/Firebase/Supabase e valide a conta da extensão no servidor.</p>
+  </div>
+</div>
+
+<div class="account-menu" id="accountMenu">
+  <div class="account-info">
+    <strong id="menuEmail">—</strong>
+    <small id="menuRole">Conta</small>
+  </div>
+  <button class="menu-item admin-link" id="adminMenuBtn" type="button" style="display:none;">🔥 Painel de Admin</button>
+  <button class="menu-item" id="logoutBtn" type="button">Sair da conta</button>
+</div>
+
+
+<script>
+(function () {
+  "use strict";
+
+  const AUTH_KEY = "fireevolution_auth_v1";
+  const USERS_KEY = "fireevolution_users_v1";
+  const ADMIN_EMAIL = "enricorebelo606@gmail.com";
+
+  const authModal = document.getElementById("authModal");
+  const accountBtn = document.getElementById("accountBtn");
+  const userPill = document.getElementById("userPill");
+  const userMenuBtn = document.getElementById("userMenuBtn");
+  const accountMenu = document.getElementById("accountMenu");
+  const closeAuth = document.getElementById("closeAuth");
+  const loginTab = document.getElementById("loginTab");
+  const signupTab = document.getElementById("signupTab");
+  const authTitle = document.getElementById("authTitle");
+  const authSubtitle = document.getElementById("authSubtitle");
+  const nameField = document.getElementById("nameField");
+  const authSubmit = document.getElementById("authSubmit");
+  const authForm = document.getElementById("authForm");
+  const googleBtn = document.getElementById("googleBtn");
+  const authMessage = document.getElementById("authMessage");
+  const adminSection = document.getElementById("admin");
+  const adminMenuBtn = document.getElementById("adminMenuBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const adminLogoutBtn = document.getElementById("adminLogoutBtn");
+
+  let mode = "login";
+
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS_KEY) || "[]"); }
+    catch { return []; }
+  }
+
+  function setUsers(users) {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem(AUTH_KEY) || "null"); }
+    catch { return null; }
+  }
+
+  function setMessage(text, error) {
+    authMessage.textContent = text || "";
+    authMessage.style.color = error ? "#ff9b7e" : "var(--gold)";
+  }
+
+  function openAuth(nextMode) {
+    mode = nextMode || "login";
+    authModal.classList.add("open");
+    authModal.setAttribute("aria-hidden", "false");
+    accountMenu.classList.remove("open");
+    updateMode();
+    setMessage("");
+    setTimeout(() => document.getElementById("emailInput").focus(), 50);
+  }
+
+  function closeAuthModal() {
+    authModal.classList.remove("open");
+    authModal.setAttribute("aria-hidden", "true");
+    authForm.reset();
+    setMessage("");
+  }
+
+  function updateMode() {
+    const signup = mode === "signup";
+    loginTab.classList.toggle("active", !signup);
+    signupTab.classList.toggle("active", signup);
+    nameField.style.display = signup ? "block" : "none";
+    authTitle.textContent = signup ? "Criar sua conta" : "Entrar na FireeVolution";
+    authSubtitle.textContent = signup ? "Crie seu acesso para guardar sua experiência na FireeVolution." : "Acesse sua conta para acompanhar suas análises.";
+    authSubmit.textContent = signup ? "Criar conta" : "Entrar";
+  }
+
+  function saveSession(user) {
+    localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+    renderSession();
+  }
+
+  function logout() {
+    localStorage.removeItem(AUTH_KEY);
+    accountMenu.classList.remove("open");
+    adminSection.classList.remove("visible");
+    window.location.hash = "#top";
+    renderSession();
+  }
+
+  function renderSession() {
+    const session = getSession();
+    if (!session) {
+      accountBtn.style.display = "inline-flex";
+      userPill.style.display = "none";
+      adminMenuBtn.style.display = "none";
+      adminSection.classList.remove("visible");
+      return;
+    }
+
+    accountBtn.style.display = "none";
+    userPill.style.display = "flex";
+    const initial = (session.name || session.email || "U").trim().charAt(0).toUpperCase();
+    document.getElementById("userAvatar").textContent = initial;
+    document.getElementById("menuEmail").textContent = session.email;
+    const isAdmin = session.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    document.getElementById("menuRole").textContent = isAdmin ? "Administrador" : "Usuário";
+    adminMenuBtn.style.display = isAdmin ? "block" : "none";
+    if (isAdmin) {
+      document.getElementById("adminUsers").textContent = getUsers().length;
+      document.getElementById("adminSession").textContent = "ATIVA";
+    }
+  }
+
+  accountBtn.addEventListener("click", () => openAuth("login"));
+  loginTab.addEventListener("click", () => { mode = "login"; updateMode(); setMessage(""); });
+  signupTab.addEventListener("click", () => { mode = "signup"; updateMode(); setMessage(""); });
+  closeAuth.addEventListener("click", closeAuthModal);
+  authModal.addEventListener("click", (e) => { if (e.target === authModal) closeAuthModal(); });
+
+  authForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = document.getElementById("nameInput").value.trim();
+    const email = document.getElementById("emailInput").value.trim().toLowerCase();
+    const password = document.getElementById("passwordInput").value;
+
+    const hashPassword = async (value) => {
+      const data = new TextEncoder().encode(value);
+      const hash = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+    };
+
+    if (mode === "signup") {
+      if (name.length < 2) return setMessage("Digite seu nome.", true);
+      if (password.length < 6) return setMessage("A senha precisa ter pelo menos 6 caracteres.", true);
+      const users = getUsers();
+      if (users.some(u => u.email === email)) return setMessage("Este e-mail já está cadastrado.", true);
+      const passwordHash = await hashPassword(password);
+      users.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), name, email, passwordHash, createdAt: new Date().toISOString() });
+      setUsers(users);
+      saveSession({ name, email, provider: "email", role: "user" });
+      closeAuthModal();
+      return;
+    }
+
+    const users = getUsers();
+    const passwordHash = await hashPassword(password);
+
+    // Admin credentials: ONLY this exact email + password can access the admin account.
+    const ADMIN_PASSWORD_HASH = "c070c12c4c28a21f3657f5558bbeda0e419060e7581cbdd77f90db3655fc2f35";
+    if (email === ADMIN_EMAIL.toLowerCase()) {
+      if (passwordHash !== ADMIN_PASSWORD_HASH) {
+        return setMessage("Senha incorreta.", true);
+      }
+      saveSession({ name: "Enrico", email: ADMIN_EMAIL, provider: "email", role: "admin" });
+      closeAuthModal();
+      return;
+    }
+
+    const user = users.find(u => u.email === email);
+    if (!user) return setMessage("Conta não encontrada. Clique em “Criar conta”.", true);
+    if (!user.passwordHash || passwordHash !== user.passwordHash) return setMessage("Senha incorreta.", true);
+    saveSession({ name: user.name, email: user.email, provider: "email", role: "user" });
+    closeAuthModal();
+  });
+
+  googleBtn.addEventListener("click", () => {
+    setMessage("Para o Google Login real, é necessário configurar o OAuth do Google no backend. A extensão fica autorizada somente para " + ADMIN_EMAIL + ".", false);
+  });
+
+  userMenuBtn.addEventListener("click", () => accountMenu.classList.toggle("open"));
+  document.addEventListener("click", (e) => {
+    if (!accountMenu.contains(e.target) && e.target !== userMenuBtn) accountMenu.classList.remove("open");
+  });
+  logoutBtn.addEventListener("click", logout);
+  adminLogoutBtn.addEventListener("click", logout);
+
+  adminMenuBtn.addEventListener("click", () => {
+    const session = getSession();
+    if (!session || session.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) return;
+    accountMenu.classList.remove("open");
+    adminSection.classList.add("visible");
+    document.getElementById("adminUsers").textContent = getUsers().length;
+    window.location.hash = "#admin";
+  });
+
+
+  const ZIP_PRODUCT_KEY = "fireevolution_subscription_zip_product_v1";
+  const zipInput = document.getElementById("zipProductInput");
+  const zipFileName = document.getElementById("zipFileName");
+  const zipStatus = document.getElementById("zipProductStatus");
+  const saveZipProductBtn = document.getElementById("saveZipProductBtn");
+
+  if (zipInput) {
+    zipInput.addEventListener("change", () => {
+      const file = zipInput.files && zipInput.files[0];
+      zipFileName.textContent = file ? file.name : "Nenhum arquivo selecionado";
+      zipStatus.textContent = "";
+    });
+  }
+
+  if (saveZipProductBtn) {
+    saveZipProductBtn.addEventListener("click", () => {
+      const session = getSession();
+      if (!session || session.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+        zipStatus.textContent = "Acesso negado.";
+        return;
+      }
+
+      const file = zipInput.files && zipInput.files[0];
+      const name = document.getElementById("productNameInput").value.trim();
+      const price = document.getElementById("subscriptionPriceInput").value;
+      const period = document.getElementById("subscriptionPeriodInput").value;
+
+      if (!file) {
+        zipStatus.textContent = "Escolha um arquivo .zip primeiro.";
+        return;
+      }
+      if (!name) {
+        zipStatus.textContent = "Digite o nome do produto.";
+        return;
+      }
+      if (Number(price) <= 0) {
+        zipStatus.textContent = "Digite um preço maior que zero.";
+        return;
+      }
+
+      const product = {
+        fileName: file.name,
+        productName: name,
+        price: Number(price).toFixed(2),
+        period,
+        savedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem(ZIP_PRODUCT_KEY, JSON.stringify(product));
+      zipStatus.textContent =
+        "Produto salvo: " + product.productName + " — " + product.fileName +
+        " (" + product.price + " / " + (period === "year" ? "ano" : period === "day" ? "dia" : "mês") + ").";
+    });
+  }
+
+  (function loadZipProduct() {
+    try {
+      const product = JSON.parse(localStorage.getItem(ZIP_PRODUCT_KEY) || "null");
+      if (!product) return;
+      const pn = document.getElementById("productNameInput");
+      const pp = document.getElementById("subscriptionPriceInput");
+      const ps = document.getElementById("subscriptionPeriodInput");
+      if (pn) pn.value = product.productName || "";
+      if (pp) pp.value = product.price || "";
+      if (ps) ps.value = product.period || "month";
+      if (zipFileName) zipFileName.textContent = product.fileName || "Nenhum arquivo selecionado";
+      if (zipStatus) zipStatus.textContent = "Produto salvo anteriormente. Escolha outro ZIP para substituir.";
+    } catch {}
+  })();
+
+  window.showAdminMessage = function (message) {
+    document.getElementById("adminMessage").textContent = message;
+  };
+
+  renderSession();
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Brasas animadas no hero ---------- */
+
+  var canvas = document.getElementById("embers");
+  var ctx = canvas.getContext("2d");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var particles = [];
+  var W, H, dpr;
+
+  function resize() {
+    var hero = canvas.parentElement;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = hero.clientWidth;
+    H = hero.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function makeParticle(spawnAtBottom) {
+    var size = 1.5 + Math.random() * 3.2;
+    return {
+      x: Math.random() * W,
+      y: spawnAtBottom ? H + Math.random() * 60 : Math.random() * H,
+      size: size,
+      speed: 0.25 + Math.random() * 0.6,
+      sway: Math.random() * 0.6 - 0.3,
+      swaySpeed: 0.4 + Math.random() * 0.8,
+      phase: Math.random() * Math.PI * 2,
+      hue: Math.random() < 0.5 ? "255,176,102" : "239,75,31",
+      alpha: 0.35 + Math.random() * 0.5,
+    };
+  }
+
+  function initParticles() {
+    var count = W < 700 ? 26 : 46;
+    particles = [];
+    for (var i = 0; i < count; i++) particles.push(makeParticle(false));
+  }
+
+  function drawStatic() {
+    // Sem animação: algumas brasas paradas, discretas.
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(function (p) {
+      ctx.beginPath();
+      var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+      grad.addColorStop(0, "rgba(" + p.hue + "," + p.alpha + ")");
+      grad.addColorStop(1, "rgba(" + p.hue + ",0)");
+      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(function (p) {
+      p.y -= p.speed;
+      p.x += Math.sin(t / 1000 * p.swaySpeed + p.phase) * p.sway;
+      var flicker = 0.6 + 0.4 * Math.sin(t / 300 + p.phase);
+
+      if (p.y < -20) {
+        Object.assign(p, makeParticle(true));
+      }
+
+      ctx.beginPath();
+      var glowSize = p.size * 4;
+      var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize);
+      grad.addColorStop(0, "rgba(" + p.hue + "," + (p.alpha * flicker) + ")");
+      grad.addColorStop(1, "rgba(" + p.hue + ",0)");
+      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(255,235,210," + Math.min(1, p.alpha * flicker + 0.2) + ")";
+      ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+
+  function start() {
+    resize();
+    initParticles();
+    if (reduceMotion) {
+      drawStatic();
+    } else {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  window.addEventListener("resize", function () {
+    resize();
+    initParticles();
+  });
+
+  start();
+})();
+</script>
+
+</body>
+</html>
